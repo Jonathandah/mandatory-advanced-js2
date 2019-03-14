@@ -2,36 +2,31 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import "./table.css";
 
-let number=0;
 
-function renderTableTD(movie,key){
-    console.log(key);
-    console.log(movie[key]);
-    if(key !== "id" && key !== "description"){
-        number++;
-        return(
-            <td key={number + movie.id}>{movie[key]}</td>
-        );
-    }
-}
-
-
-function renderTableRows(movie){
-    console.log(movie);
-    return(
-        <tr key={movie.id}>
-           {Object.keys(movie).map(content => renderTableTD(movie,content))}
-            <td> 
-            <Link to="/details/" className="table__links">Details</Link>
-            <Link to="/edit/" className="table__links">Edit</Link>
-            <Link to="/delete/" className="table__links">Delete</Link>
-            </td>
-        </tr>
-    );
-}
 
 let Table = (props) =>{
     console.log(props.movies);
+
+    function renderTableRows(movie){
+        console.log(movie);
+        return(
+            <tr key={movie.id}>
+                <td key={"1" + movie.id}>{movie.title}</td>
+                <td key={"2" + movie.id}>{movie.director}</td>
+                <td key={"3" + movie.id}>{movie.rating}</td>
+                <td key={"4" + movie.id}> 
+                <Link to="/details/" className="table__links">Details</Link>
+                <Link to="/edit/" className="table__links">Edit</Link>
+                <button className="table__deleteButton" onClick={props.onDelete} value={movie.id}>Delete</button>
+                </td>
+            </tr>
+        );
+    }
+    
+
+
+
+
     return(
         <table>
             <thead>
