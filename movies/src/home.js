@@ -28,6 +28,13 @@ class Home extends Component{
        axios.delete("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + e.target.value)
        .then((respons)=>{
             console.log(respons);
+            for(let movie of this.state.movies){
+                if(movie.id === e.target.value){
+                    this.setState({
+                        movies: this.state.movies.splice(movie),
+                    })
+                }
+            }
        })
     }
 

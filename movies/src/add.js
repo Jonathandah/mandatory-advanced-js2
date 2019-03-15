@@ -65,6 +65,10 @@ class Add extends Component{
         console.log(obj)
         let stringified = JSON.stringify(obj);
         console.log(stringified);
+        axios.post("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/", obj)
+        .then((respons)=>{
+            console.log(respons);
+        })
         
     }
 
