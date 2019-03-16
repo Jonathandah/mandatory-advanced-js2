@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import "./table.css";
 
 
-
 let Table = (props) =>{
     console.log(props.movies);
 

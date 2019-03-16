@@ -4,6 +4,7 @@ import Table from "./table";
 import { Helmet } from "react-helmet";
 import "./home.css";
 
+
 class Home extends Component{
     constructor(props){
         super(props);

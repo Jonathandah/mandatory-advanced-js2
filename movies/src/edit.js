@@ -4,7 +4,6 @@ import axios from 'axios';
 import './edit.css';
 import Form from "./form"
 
-
 class Edit extends Component {
   constructor(props){
     super(props);
