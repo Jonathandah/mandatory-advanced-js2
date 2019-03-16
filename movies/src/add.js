@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 /*
 
-import { Helmet } from "react-helmet";
+
 import { Link } from 'react-router-dom';
 import Table from "./table";
 */
-
+import { Helmet } from "react-helmet";
 import axios from 'axios';
 import "./add.css";
 import Form from "./form"
@@ -20,7 +20,7 @@ class Add extends Component{
             title: "",
             description:"",
             director: "",
-            rating: ""
+            rating: "",
         }
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -68,16 +68,20 @@ class Add extends Component{
         axios.post("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/", obj)
         .then((respons)=>{
             console.log(respons);
+            window.location.href = "http://localhost:3000/"; 
         })
-        
     }
+
 
 
     render(){
         return(
             <div className="add">
+                <Helmet>
+                    <title>Add</title>
+                </Helmet>
                 <main className="add__main">
-                    <Form onChange={this.onChange} state={this.state} onSubmit={this.onSubmit}></Form>
+                    <Form onChange={this.onChange} state={this.state} onSubmit={this.onSubmit} ></Form>
                 </main>
             </div> 
         );

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Table from "./table";
+import { Helmet } from "react-helmet";
 import "./home.css";
 
 class Home extends Component{
@@ -11,6 +12,7 @@ class Home extends Component{
           movies: "",
           title: "Home"
         }
+        this.onDelete = this.onDelete.bind(this);
     }
 
     componentDidMount(){
@@ -24,18 +26,16 @@ class Home extends Component{
     }
 
     onDelete(e){
-        console.log(("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + e.target.value));
-       axios.delete("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + e.target.value)
-       .then((respons)=>{
+        let id = e.target.value
+        axios.delete("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + id)
+        .then((respons)=>{
             console.log(respons);
-            for(let movie of this.state.movies){
-                if(movie.id === e.target.value){
-                    this.setState({
-                        movies: this.state.movies.splice(movie),
-                    })
-                }
-            }
-       })
+            let newArray = [...this.state.movies]
+            this.setState({
+                movies: newArray.filter(movie => id !== movie.id),
+            })
+            console.log(this.state.movies)
+        })
     }
 
     render(){
@@ -45,6 +45,9 @@ class Home extends Component{
 
         return(
             <div className="home">
+                <Helmet>
+                    <title>Home</title>
+                </Helmet>
                 <main className="home__main">
                     <div className="home__main__container">
                         <h2 className="home__main__container__title">{this.state.title}</h2>
@@ -57,5 +60,5 @@ class Home extends Component{
         );
     }
 }
-
+//borde importer edit och lägga det här tsm med table för att kunna få tag i id:et
 export default Home;
