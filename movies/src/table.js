@@ -10,20 +10,17 @@ let Table = (props) =>{
         console.log(movie);
         return(
             <tr key={movie.id}>
-                <td key={"1" + movie.id}>{movie.title}</td>
-                <td key={"2" + movie.id}>{movie.director}</td>
-                <td key={"3" + movie.id}>{movie.rating}</td>
-                <td key={"4" + movie.id}> 
+                <td >{movie.title}</td>
+                <td >{movie.director}</td>
+                <td >{movie.rating}</td>
+                <td > 
                 <Link to="/details/" className="table__links">Details</Link>
-                <Link to="/edit/" className="table__links">Edit</Link>
+                <Link to={`/edit/${movie.id}`} className="table__links">Edit</Link>
                 <button className="table__deleteButton" onClick={props.onDelete} value={movie.id}>Delete</button>
                 </td>
             </tr>
         );
     }
-    
-
-
 
 
     return(
