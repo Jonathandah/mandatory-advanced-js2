@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Table from "./table";
 */
+import { Redirect } from 'react-router-dom';
 import { Helmet } from "react-helmet";
 import axios from 'axios';
 import "./add.css";
@@ -19,6 +20,7 @@ class Add extends Component{
             description:"",
             director: "",
             rating: "",
+            finished: false,
         }
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -66,13 +68,18 @@ class Add extends Component{
         axios.post("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/", obj)
         .then((respons)=>{
             console.log(respons);
-            window.location.href = "http://localhost:3000/"; 
+            this.setState({
+                finished: true,
+            })
         })
     }
 
 
 
     render(){
+        if(this.state.finished){
+            return <Redirect to="/"></Redirect>
+        }
         return(
             <div className="add">
                 <Helmet>

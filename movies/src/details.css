@@ -1,0 +1,38 @@
+
+
+p{
+    margin-top: 20px;
+}
+
+.details{
+    height: 95%;
+    display: flex; 
+    justify-content: center;
+    align-items: flex-start;
+}
+.details__main{
+    width: 50%;
+    height: 85%;
+    padding-top: 8%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    word-break: break-all;
+    text-align: start;
+}
+
+.details__main__title{
+
+}
+
+.details__main__director{
+
+}
+
+.details__main__description{
+
+}
+.details__main__rating{
+
+}

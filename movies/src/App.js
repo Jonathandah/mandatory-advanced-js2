@@ -6,6 +6,7 @@ import './App.css';
 import Home from "./home";
 import Add from "./add";
 import Edit from "./edit";
+import Details from "./details"
 //fixa state som kollar id för länken du klickar på för att komma till edit med rätt film ELLER kör parameter i raouting för att kolla id
 class App extends Component {
   constructor(props){
@@ -30,9 +31,7 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <Route path="/add/" component={Add} />
           <Route path="/edit/:id" component={Edit} />
-          {/* 
-          <Route path="/details/" component={Details} />
-          */}
+          <Route path="/details/:id" component={Details} />
         </div>
       </Router>
     );
