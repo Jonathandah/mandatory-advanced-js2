@@ -14,6 +14,7 @@ class Home extends Component{
           title: "Home"
         }
         this.onDelete = this.onDelete.bind(this);
+        this.onChange = this.onChange.bind(this);
     }
 
     componentDidMount(){
@@ -37,6 +38,15 @@ class Home extends Component{
             })
             console.log(this.state.movies)
         })
+    }
+
+    onChange(e){
+        this.setState({
+           findMovie: e.target.value, 
+        })
+        //kör någon sorts filter och en include på varje film för att se om e.target stämmer överens med filmens värden
+        //this.state.movies.filter(movie => (movie))
+
     }
 
     render(){

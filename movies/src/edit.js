@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Helmet } from "react-helmet";
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import './edit.css';
 import Form from "./form"
@@ -14,6 +15,7 @@ class Edit extends Component {
       description: "",
       director: "",
       rating: 0,
+      finished: false,
       error: "",
     }
     this.onChange = this.onChange.bind(this);
@@ -67,9 +69,12 @@ onSubmit(e){
   console.log(obj)
   let stringified = JSON.stringify(obj);
   console.log(stringified);
-  axios.put("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/", id, obj, {headers: {"Content-Type": "application/json"}})
+  axios.put("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + id, obj, {headers: {"Content-Type": "application/json"}})
   .then((respons)=>{
       console.log(respons);
+      this.setState({
+        finished: true,
+      })
   })
   .catch((error)=>{
     console.log(error);
@@ -77,6 +82,9 @@ onSubmit(e){
 }
 
   render() {
+    if(this.state.finished){
+      return <Redirect to="/"></Redirect>
+    }
     return (
         <div className="edit">
             <Helmet>
