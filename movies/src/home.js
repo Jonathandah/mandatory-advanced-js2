@@ -48,6 +48,14 @@ class Home extends Component{
         })   
         .catch((error)=>{
             console.log(error);
+
+            if (error.response && error.response.status === 404) {
+                let newArray = [...this.state.movies]
+                return this.setState({
+                    movies: newArray.filter(movie => id !== movie.id),
+                });
+            }
+
             this.setState({
                 error: true
             })
@@ -58,24 +66,6 @@ class Home extends Component{
         this.setState({
            findMovie: e.target.value, 
         })
-        /*
-        console.log(e.target.value);
-        //kör någon sorts filter och en include på varje film för att se om e.target stämmer överens med filmens värden
-        //this.state.movies.filter(movie => (movie))
-        console.log(this.state.movies);
-        let array = [...this.state.movies];
-        console.log(array);
-        this.setState({
-            movies:  array.filter(movie => e.target.value === movie.title),
-        })
-        console.log(this.state.movies);
-*/
-let array = [...this.state.movies];
-const filteredMovies = array.filter(movie => movie.title.includes(this.state.findMovie));
- this.setState({
-     movies: filteredMovies,
- })
- console.log(this.state.movies);
     }
 
     render(){
@@ -84,6 +74,14 @@ const filteredMovies = array.filter(movie => movie.title.includes(this.state.fin
         } else if(this.state.error === true){
             return <p>Something went wrong....</p>
         }
+
+        console.log(this.state.movies);
+
+        const filteredMovies = this.state.movies.filter(movie =>
+                movie.title.toLowerCase().includes(this.state.findMovie.toLowerCase()) ||  
+                movie.rating.toString().toLowerCase().includes(this.state.findMovie.toLowerCase()) ||
+                movie.director.toLowerCase().includes(this.state.findMovie.toLowerCase())
+                );
 
         return(
             <div className="home">
@@ -96,7 +94,7 @@ const filteredMovies = array.filter(movie => movie.title.includes(this.state.fin
                     </div>
                     <div className="home__main__container">
                         <input type="text" onChange={this.onChange}></input>
-                        <Table movies={this.state.movies} onDelete={this.onDelete}></Table>
+                        <Table movies={filteredMovies} onDelete={this.onDelete}></Table>
                     </div>
                 </main>
             </div> 

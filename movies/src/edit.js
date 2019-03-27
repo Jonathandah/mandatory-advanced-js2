@@ -16,16 +16,17 @@ class Edit extends Component {
       director: "",
       rating: 0,
       finished: false,
-      error: "",
+      error: false,
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   componentDidMount(){
+    this.source = axios.CancelToken.source();
     let id = this.props.match.params.id;
     console.log(id);
-    axios.get("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + id)
+    axios.get("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + id, {cancelToken: this.source.token})
     .then((response) => {
       console.log(response);
       this.setState({
@@ -37,6 +38,19 @@ class Edit extends Component {
         rating: response.data.rating,
       })
     })
+    .catch((error) => {
+      if(axios.isCancel(error)){
+        console.log("request canceled", error.message);
+      }
+      /*
+      this.setState({
+        error: true,
+      })
+      */
+    })
+  }
+  componentWillUnmount(){
+    this.source.cancel("Operation canceled");
   }
   onChange(e){
     console.log(e.target.value);
@@ -85,6 +99,10 @@ onSubmit(e){
     if(this.state.finished){
       return <Redirect to="/"></Redirect>
     }
+    else if(this.state.error){
+      return <p>Something went wrong....</p>
+    }
+    
     return (
         <div className="edit">
             <Helmet>

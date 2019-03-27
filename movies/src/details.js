@@ -20,9 +20,11 @@ class Details extends Component{
     }
 
     componentDidMount(){
+        this.source = axios.CancelToken.source();
         let id = this.props.match.params.id;
+
         console.log(id);
-        axios.get("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + id)
+        axios.get("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + id, {cancelToken: this.source.token})
         .then((response) => {
           console.log(response);
           this.setState({
@@ -30,16 +32,25 @@ class Details extends Component{
           })
         })
         .catch((error) =>{
+            /*
             console.log(error);
             this.setState({
                 error: true,
             })
+            */
+           if(axios.isCancel(error)){
+            console.log("request canceled", error.message);
+          }
         })
     }
 
+    componentWillUnmount(){
+        this.source.cancel("Operation canceled");
+      }
+
     render(){
         if(this.state.error){
-            <p>Something went wrong...</p>
+           return <p>Something went wrong...</p>
         }
         return(
             <div className="details">
