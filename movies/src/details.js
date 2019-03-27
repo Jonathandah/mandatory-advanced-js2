@@ -15,6 +15,7 @@ class Details extends Component{
         super(props);
         this.state={
             movie: {},
+            error: false,
         }
     }
 
@@ -28,9 +29,18 @@ class Details extends Component{
             movie: response.data,
           })
         })
+        .catch((error) =>{
+            console.log(error);
+            this.setState({
+                error: true,
+            })
+        })
     }
 
     render(){
+        if(this.state.error){
+            <p>Something went wrong...</p>
+        }
         return(
             <div className="details">
                 <Helmet>

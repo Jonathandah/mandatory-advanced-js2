@@ -11,7 +11,9 @@ class Home extends Component{
         this.state={
           response: "",  
           movies: "",
-          title: "Home"
+          title: "Home",
+          error: false,
+          findMovie: "",
         }
         this.onDelete = this.onDelete.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -25,6 +27,12 @@ class Home extends Component{
             respons: respons,  
             movies: respons.data,})
         })
+        .catch((error)=>{
+            console.log(error);
+            this.setState({
+                error: true
+            })
+        })
     }
 
     onDelete(e){
@@ -37,6 +45,12 @@ class Home extends Component{
                 movies: newArray.filter(movie => id !== movie.id),
             })
             console.log(this.state.movies)
+        })   
+        .catch((error)=>{
+            console.log(error);
+            this.setState({
+                error: true
+            })
         })
     }
 
@@ -44,14 +58,31 @@ class Home extends Component{
         this.setState({
            findMovie: e.target.value, 
         })
+        /*
+        console.log(e.target.value);
         //kör någon sorts filter och en include på varje film för att se om e.target stämmer överens med filmens värden
         //this.state.movies.filter(movie => (movie))
-
+        console.log(this.state.movies);
+        let array = [...this.state.movies];
+        console.log(array);
+        this.setState({
+            movies:  array.filter(movie => e.target.value === movie.title),
+        })
+        console.log(this.state.movies);
+*/
+let array = [...this.state.movies];
+const filteredMovies = array.filter(movie => movie.title.includes(this.state.findMovie));
+ this.setState({
+     movies: filteredMovies,
+ })
+ console.log(this.state.movies);
     }
 
     render(){
         if (this.state.movies.length === 0) {
             return <p>Fetching movies...</p>;
+        } else if(this.state.error === true){
+            return <p>Something went wrong....</p>
         }
 
         return(
@@ -64,6 +95,7 @@ class Home extends Component{
                         <h2 className="home__main__container__title">{this.state.title}</h2>
                     </div>
                     <div className="home__main__container">
+                        <input type="text" onChange={this.onChange}></input>
                         <Table movies={this.state.movies} onDelete={this.onDelete}></Table>
                     </div>
                 </main>
@@ -71,5 +103,4 @@ class Home extends Component{
         );
     }
 }
-//borde importer edit och lägga det här tsm med table för att kunna få tag i id:et
 export default Home;
