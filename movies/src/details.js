@@ -32,15 +32,13 @@ class Details extends Component{
           })
         })
         .catch((error) =>{
-            /*
+            if(axios.isCancel(error)){
+                return console.log("request canceled", error.message);
+            }
             console.log(error);
             this.setState({
-                error: true,
+              error: true,
             })
-            */
-           if(axios.isCancel(error)){
-            console.log("request canceled", error.message);
-          }
         })
     }
 
@@ -58,6 +56,7 @@ class Details extends Component{
                     <title>Details</title>
                 </Helmet>
                 <main className="details__main">
+                        <h1>Details</h1>
                         <Link to={`/edit/${this.state.movie.id}`}>Edit</Link>
                         <h1 className="details__main__title">{this.state.movie.title}</h1>
                         <p className="details__main__director">{this.state.movie.director}</p>

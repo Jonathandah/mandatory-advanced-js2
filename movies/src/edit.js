@@ -40,13 +40,13 @@ class Edit extends Component {
     })
     .catch((error) => {
       if(axios.isCancel(error)){
-        console.log("request canceled", error.message);
+       return console.log("request canceled", error.message);
       }
-      /*
+      
       this.setState({
         error: true,
       })
-      */
+      
     })
   }
   componentWillUnmount(){
@@ -69,31 +69,35 @@ class Edit extends Component {
         this.setState({rating: e.target.value})
         console.log(this.state)
     }
-}
-onSubmit(e){
-  e.preventDefault();
-  let id = this.props.match.params.id;
-  console.log(id);
-  let obj = {};
+  }
 
-  obj.title = this.state.title 
-  obj.description = this.state.description
-  obj.director = this.state.director
-  obj.rating = this.state.rating
-  console.log(obj)
-  let stringified = JSON.stringify(obj);
-  console.log(stringified);
-  axios.put("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + id, obj, {headers: {"Content-Type": "application/json"}})
-  .then((respons)=>{
-      console.log(respons);
+  onSubmit(e){
+    e.preventDefault();
+    let id = this.props.match.params.id;
+    console.log(id);
+    let obj = {};
+
+    obj.title = this.state.title 
+    obj.description = this.state.description
+    obj.director = this.state.director
+    obj.rating = this.state.rating
+    console.log(obj)
+    let stringified = JSON.stringify(obj);
+    console.log(stringified);
+    axios.put("http://ec2-13-53-132-57.eu-north-1.compute.amazonaws.com:3000/movies/" + id, obj, {headers: {"Content-Type": "application/json"}})
+    .then((respons)=>{
+        console.log(respons);
+        this.setState({
+          finished: true,
+        })
+    })
+    .catch((error)=>{
+      console.log(error);
       this.setState({
-        finished: true,
+        error: true,
       })
-  })
-  .catch((error)=>{
-    console.log(error);
-  })
-}
+    })
+  }
 
   render() {
     if(this.state.finished){
@@ -109,6 +113,7 @@ onSubmit(e){
                 <title>Edit</title>
             </Helmet>
             <main>
+              <h1>Edit</h1>
               <Form movie={this.state.movie} editPage={this.state.editPage} onChange={this.onChange} state={this.state} onSubmit={this.onSubmit}></Form>
             </main>
         </div>

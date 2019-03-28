@@ -19,8 +19,9 @@ class Add extends Component{
             title: "",
             description:"",
             director: "",
-            rating: "",
+            rating: 0,
             finished: false,
+            error: false,
         }
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -54,6 +55,8 @@ class Add extends Component{
             console.log(this.state)
         }
     }
+
+
     onSubmit(e){
         e.preventDefault();
         let obj = {};
@@ -72,6 +75,12 @@ class Add extends Component{
                 finished: true,
             })
         })
+        .catch((error)=>{
+            console.log(error);
+            this.setState({
+                error: true,
+            })
+        })
     }
 
 
@@ -79,13 +88,17 @@ class Add extends Component{
     render(){
         if(this.state.finished){
             return <Redirect to="/"></Redirect>
+        }else if (this.state.error){
+            return <p>Something went wrong...</p>
         }
+
         return(
             <div className="add">
                 <Helmet>
                     <title>Add</title>
                 </Helmet>
                 <main className="add__main">
+                    <h1>Add Movie</h1>
                     <Form onChange={this.onChange} state={this.state} onSubmit={this.onSubmit} ></Form>
                 </main>
             </div> 
